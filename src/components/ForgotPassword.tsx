@@ -1,34 +1,29 @@
-// src/components/ForgotPassword.tsx
 import { createSignal } from 'solid-js';
 import { supabase } from '../services/supabaseClient';
 
 const ForgotPassword = () => {
-    const [email, setEmail] = createSignal('');
-    const [message, setMessage] = createSignal<string | null>(null);
+    const [email, setEmail] = createSignal("");
+    const [error, setError] = createSignal("");
+    const [message, setMessage] = createSignal("");
 
-    const handlePasswordReset = async (e: Event) => {
-        e.preventDefault();
-        const { error } = await supabase.auth.resetPasswordForEmail(email(), {
-            redirectTo: `${window.location.origin}/reset-password`,
-        });
-
-        setMessage(
-            error ? error.message : 'Password reset email sent! Please check your inbox.'
-        );
+    const handleForgotPassword = async () => {
+        setError("");
+        const { error } = await supabase.auth.resetPasswordForEmail(email());
+        if (error) {
+            setError(error.message);
+        } else {
+            setMessage("Un email de réinitialisation de mot de passe a été envoyé.");
+        }
     };
 
     return (
-        <form onSubmit={handlePasswordReset}>
-            <input
-                type="email"
-                placeholder="Enter your email"
-                value={email()}
-                onInput={(e) => setEmail(e.currentTarget.value)}
-                required
-            />
-            <button type="submit">Send Password Reset Email</button>
+        <div>
+            <h2>Forgot Password</h2>
+            <input type="email" placeholder="Email" onInput={(e) => setEmail(e.currentTarget.value)} />
+            <button onClick={handleForgotPassword}>Send Reset Link</button>
+            {error() && <p style={{ color: "red" }}>{error()}</p>}
             {message() && <p>{message()}</p>}
-        </form>
+        </div>
     );
 };
 

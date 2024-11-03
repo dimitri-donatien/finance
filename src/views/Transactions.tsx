@@ -1,9 +1,6 @@
-import { MetaProvider, Title, Link, Meta } from "@solidjs/meta"
-import ForgotPassword from "@/components/ForgotPassword"
-import FinanceList from "@/components/FinanceList"
-import AddBudget from "@/components/AddBudget"
+import { MetaProvider, Title, Link, Meta } from "@solidjs/meta";
 
-function Home() {
+function Transactions() {
 
     return (
         <>
@@ -36,11 +33,10 @@ function Home() {
                 <Meta property="twitter:image" content="" />
             </MetaProvider>
 
-            <FinanceList />
-            <AddBudget />
+
 
         </>
     )
 }
 
-export default Home
+export default Transactions

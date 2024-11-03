@@ -1,4 +1,3 @@
-// src/components/Logout.tsx
 import { supabase } from '../services/supabaseClient';
 
 const Logout = () => {

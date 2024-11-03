@@ -20,6 +20,7 @@
     "@solidjs/router": "^0.15.0",
     "@supabase/supabase-js": "^2.46.1",
     "@types/node": "^22.8.7",
+    "chart.js": "^4.4.6",
     "solid-icons": "^1.1.0",
     "solid-js": "^1.8.11"
   }

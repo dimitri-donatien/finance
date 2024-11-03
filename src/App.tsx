@@ -1,8 +1,7 @@
 import { Component, ParentProps, Show } from "solid-js";
 
-import Login from './components/Login';
-import Signup from './components/Signup';
-import Logout from './components/Logout';
+import Login from './components/LoginForm';
+import Register from './components/RegisterForm';
 
 import { user } from './stores/authStore';
 
@@ -10,10 +9,8 @@ const App: Component<ParentProps> = props => {
 
   return (
     <>
-      <Show when={user()} fallback={<><Signup /><Login /></>}>
-        <p>Welcome, {user()?.email}</p>
+      <Show when={user()} fallback={<><Register /><Login /></>}>
         {props.children}
-        <Logout />
       </Show>
     </>
   )
