@@ -33,7 +33,9 @@ function Overview() {
                 <Meta property="twitter:image" content="" />
             </MetaProvider>
 
-
+            <div class="flex flex-col items-center justify-center h-screen">
+                <h1 class="text-4xl font-bold">Overview</h1>
+            </div>
 
         </>
     )
