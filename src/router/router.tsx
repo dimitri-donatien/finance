@@ -30,16 +30,28 @@ const AppRoutes = () => {
                 </AuthMiddleware>
             )} />
 
-            {/* Page du tableau de bord (Overview) restreinte aux utilisateurs authentifiés */}
+            {/* Routes nécessitant une authentification */}
             <Route path="/overview" component={() => (
                 <AuthMiddleware requiresAuth>
                     <OverView />
                 </AuthMiddleware>
             )} />
 
+            <Route path="/categories" component={() => (
+                <AuthMiddleware requiresAuth>
+                    <CategoriesView />
+                </AuthMiddleware>
+            )} />
+
+            <Route path="/transactions" component={() => (
+                <AuthMiddleware requiresAuth>
+                    <TransactionsView />
+                </AuthMiddleware>
+            )} />
+
             {/* Autres routes, accessibles sans authentification spécifique */}
-            <Route path="/categories" component={CategoriesView} />
-            <Route path="/transactions" component={TransactionsView} />
+            {/* <Route path="/categories" component={CategoriesView} /> */}
+            {/* <Route path="/transactions" component={TransactionsView} /> */}
 
             {/* Page pour les erreurs (404) */}
             <Route path="*404" component={NotFoundView} />
