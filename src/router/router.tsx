@@ -1,5 +1,6 @@
 import { Route } from "@solidjs/router";
 import { lazy } from "solid-js";
+import AuthMiddleware from "@/components/AuthMiddleware";
 
 // General views
 const OverView = lazy(() => import("@/views/Overview"));
@@ -10,27 +11,37 @@ const TransactionsView = lazy(() => import("@/views/Transactions"));
 const LoginView = lazy(() => import("@/views/Login"));
 const RegisterView = lazy(() => import("@/views/Register"));
 
-// Password views
-// const ForgotPassword = lazy(() => import("@/components/ForgotPassword"));
-// const ResetPassword = lazy(() => import("@/components/ResetPassword"));
-
 // Error views
 const NotFoundView = lazy(() => import("@/views/NotFound"));
 
 const AppRoutes = () => {
     return (
         <>
-            <Route path="/" component={LoginView} />
+            {/* Pages de connexion et d'inscription avec redirection si l'utilisateur est déjà authentifié */}
+            <Route path="/" component={() => (
+                <AuthMiddleware redirectIfAuth>
+                    <LoginView />
+                </AuthMiddleware>
+            )} />
 
-            <Route path="/overview" component={OverView} />
+            <Route path="/register" component={() => (
+                <AuthMiddleware redirectIfAuth>
+                    <RegisterView />
+                </AuthMiddleware>
+            )} />
+
+            {/* Page du tableau de bord (Overview) restreinte aux utilisateurs authentifiés */}
+            <Route path="/overview" component={() => (
+                <AuthMiddleware requiresAuth>
+                    <OverView />
+                </AuthMiddleware>
+            )} />
+
+            {/* Autres routes, accessibles sans authentification spécifique */}
             <Route path="/categories" component={CategoriesView} />
             <Route path="/transactions" component={TransactionsView} />
 
-            <Route path="/register" component={RegisterView} />
-
-            {/* <Route path="/forgot-password" component={ForgotPassword} /> */}
-            {/* <Route path="/reset-password" component={ResetPassword} /> */}
-
+            {/* Page pour les erreurs (404) */}
             <Route path="*404" component={NotFoundView} />
         </>
     );
