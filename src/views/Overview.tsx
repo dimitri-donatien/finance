@@ -1,4 +1,3 @@
-import BudgetsList from "@/components/BudgetsList";
 import { MetaProvider, Title, Link, Meta } from "@solidjs/meta";
 
 function Overview() {
@@ -35,8 +34,6 @@ function Overview() {
             </MetaProvider>
 
             <h1>Overview</h1>
-
-
 
         </>
     )

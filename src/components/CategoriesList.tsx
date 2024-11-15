@@ -1,4 +1,4 @@
-import { createSignal, For } from 'solid-js';
+import { createSignal, For, onMount } from 'solid-js';
 import { supabase } from "@/services/supabaseClient";
 import { getAllCategory } from '@/services/categoryService';
 
@@ -9,6 +9,13 @@ import { CategoryType } from '@/types/Category';
 function CategoriesList() {
 
     const [name, setName] = createSignal('');
+
+    const [categories, setCategories] = createSignal<any[]>([]);
+
+    onMount(async () => {
+        const data = await getAllCategory();
+        setCategories(data);
+    })
 
     async function createCategory() {
         const { data, error } = await supabase
@@ -55,10 +62,25 @@ function CategoriesList() {
     }
 
     return (
-        <form onSubmit={handleSubmit}>
-            <input type="text" value={name()} onInput={(e) => setName(e.target.value)} placeholder="Nom de la catégorie" required />
-            <button type="submit">Ajouter la catégorie</button>
-        </form>
+        <>
+            <h2>Liste des Catégories :</h2>
+
+            <form onSubmit={handleSubmit}>
+                <input type="text" value={name()} onInput={(e) => setName(e.target.value)} placeholder="Nom de la catégorie" required />
+                <button type="submit">Ajouter la catégorie</button>
+            </form>
+
+            <For each={categories()}>
+                {(category) => (
+                    <div>
+                        <span>{category.name}</span>
+                        <button onClick={(e) => handleUpdate(e, category.id)}>Modifier</button>
+                        <button onClick={(e) => handleDelete(e, category.id)}>Supprimer</button>
+                    </div>
+
+                )}
+            </For>
+        </>
     );
 }
 

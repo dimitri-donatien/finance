@@ -72,6 +72,8 @@ function BudgetsList() {
 
     return (
         <>
+            <h2>Liste des Bugdgets :</h2>
+
             <form onSubmit={handleSubmit}>
                 <input type="text" value={name()} onInput={(e) => setName(e.target.value)} placeholder="Nom du budget" required />
                 <input type="number" value={spentAmount()} onInput={(e) => setSpentAmount(e.target.value)} placeholder="Montant dépensé" />
