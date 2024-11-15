@@ -1,6 +1,5 @@
+import BudgetsList from "@/components/BudgetsList";
 import { MetaProvider, Title, Link, Meta } from "@solidjs/meta";
-
-import Logout from "@/components/Logout";
 
 function Overview() {
 
@@ -35,11 +34,9 @@ function Overview() {
                 <Meta property="twitter:image" content="" />
             </MetaProvider>
 
-            <div class="flex flex-col items-center justify-center h-screen">
-                <h1 class="text-4xl font-bold">Overview</h1>
-            </div>
+            <h1>Overview</h1>
 
-            <Logout />
+
 
         </>
     )
