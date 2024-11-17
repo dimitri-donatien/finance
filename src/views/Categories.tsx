@@ -33,6 +33,7 @@ function Categories() {
                 <Meta property="twitter:image" content="" />
             </MetaProvider>
 
+            <h1>Categories</h1>
 
 
         </>

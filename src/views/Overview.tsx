@@ -39,7 +39,7 @@ function Overview() {
                 <h1 class="text-4xl font-bold">Overview</h1>
             </div>
 
-            {/* <Logout /> */}
+            <Logout />
 
         </>
     )
