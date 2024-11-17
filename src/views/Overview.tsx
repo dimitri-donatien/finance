@@ -1,6 +1,6 @@
 import { MetaProvider, Title, Link, Meta } from "@solidjs/meta";
 
-import Logout from "@/components/Logout";
+// import Logout from "@/components/Logout";
 
 function Overview() {
 
@@ -39,7 +39,7 @@ function Overview() {
                 <h1 class="text-4xl font-bold">Overview</h1>
             </div>
 
-            <Logout />
+            {/* <Logout /> */}
 
         </>
     )
