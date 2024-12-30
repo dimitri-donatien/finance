@@ -3,6 +3,7 @@ export type BudgetType = {
   user_id: string;
   category_id: number;
   amount: number;
-  period: string;
   created_at?: string;
+  start_date: string;
+  end_date: string;
 };

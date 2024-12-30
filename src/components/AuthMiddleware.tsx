@@ -20,7 +20,7 @@ const AuthMiddleware = (props: AuthMiddlewareProps) => {
             navigate("/", { replace: true });
         } else if (props.redirectIfAuth && isAuthenticated) {
             // Redirige vers le tableau de bord si l'utilisateur est déjà connecté et tente d'accéder à une page d'inscription ou de connexion
-            navigate("/overview", { replace: true });
+            navigate("/dashboard", { replace: true });
         }
     });
 

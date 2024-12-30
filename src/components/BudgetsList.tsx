@@ -1,63 +1,39 @@
 import { createSignal, For, onMount } from 'solid-js';
-import { supabase } from "@/services/supabaseClient";
-import { getAllBudget } from '@/services/budgetService';
+
+import { supabase } from "@/lib/supabase";
 
 import { user } from '@/stores/authStore';
 
+import { BudgetType } from '@/types/Budget';
+
+import { getAllBudget, getBudget, createBudget, updateBudget, deleteBudget, deleteAllBudget, getBudgetsByCategory } from '@/lib/budget';
+
 function BudgetsList() {
-    const [name, setName] = createSignal('');
-    const [totalAmount, setTotalAmount] = createSignal('');
-    const [spentAmount, setSpentAmount] = createSignal('');
-    const [startDate, setStartDate] = createSignal('');
-    const [endDate, setEndDate] = createSignal('');
+    const [amount, setAmount] = createSignal(0);
+    const [category_id, setCategory] = createSignal(0);
+    const [start_date, setStartDate] = createSignal('');
+    const [end_date, setEndDate] = createSignal('');
 
     const [budgets, setBudgets] = createSignal<any[]>([]);
 
     onMount(async () => {
-        const data = await getAllBudget();
-        setBudgets(data);
+        const budget = await getAllBudget();
+        setBudgets(budget);
     });
 
-    async function createBudget() {
-        const { data, error } = await supabase
-            .from('budgets')
-            .insert(
-                [
-                    {
-                        name: name(),
-                        total_amount: totalAmount(),
-                        spent_amount: spentAmount(),
-                        start_date: startDate(),
-                        end_date: endDate(),
-                        user_id: user().id
-                    }
-                ]
-            );
-    }
-
-    async function updateBudget(id: number) {
-        const { data, error } = await supabase
-            .from('budgets')
-            .update({
-                name: name(),
-                total_amount: totalAmount(),
-                spent_amount: spentAmount(),
-                start_date: startDate(),
-                end_date: endDate()
-            })
-            .eq('id', id);
-    }
-
-    async function deleteBudget(id: number) {
-        const { data, error } = await supabase
-            .from('budgets')
-            .delete()
-            .eq('id', id);
-    }
-
-    function handleUpdate(e: Event, id: number) {
+    function handleCreateBudget(e: Event, data: BudgetType) {
         e.preventDefault();
-        updateBudget(id);
+        createBudget(data);
+    }
+
+    function handleBudget(e: Event, id: number) {
+        e.preventDefault();
+        getBudget(id);
+    }
+
+    function handleUpdate(e: Event, id: number, data: BudgetType) {
+        e.preventDefault();
+        updateBudget(id, data);
     }
 
     function handleDelete(e: Event, id: number) {
@@ -65,20 +41,34 @@ function BudgetsList() {
         deleteBudget(id);
     }
 
-    function handleSubmit(e: Event) {
+    function handleDeleteAll(e: Event) {
         e.preventDefault();
-        createBudget();
+        deleteAllBudget();
+    }
+
+    function handleGetBudgetsByCategory(e: Event, category_id: number) {
+        e.preventDefault();
+        getBudgetsByCategory(category_id);
     }
 
     return (
         <>
-            <h2>Liste des Bugdgets :</h2>
+            {/* <h2>Liste des Budgets :</h2>
 
             <form onSubmit={handleSubmit}>
-                <input type="text" value={name()} onInput={(e) => setName(e.target.value)} placeholder="Nom du budget" required />
-                <input type="number" value={spentAmount()} onInput={(e) => setSpentAmount(e.target.value)} placeholder="Montant dépensé" />
-                <input type="date" value={startDate()} onInput={(e) => setStartDate(e.target.value)} placeholder="Date de début" required />
-                <input type="date" value={endDate()} onInput={(e) => setEndDate(e.target.value)} placeholder="Date de fin" required />
+                <input type="text" placeholder="Nom du budget" onInput={(e) => setName(e.currentTarget.value)} />
+                <input type="number" placeholder="Montant total" onInput={(e) => setTotalAmount(e.currentTarget.value)} />
+                <input type="text" placeholder="Période" onInput={(e) => setPeriod(e.currentTarget.value)} />
+
+                <select>
+                    <option value="">Choisir une catégorie</option>
+                    <For each={categories()}>
+                        {(category) => (
+                            <option value={category.id}>{category.name}</option>
+                        )}
+                    </For>
+                </select>
+
                 <button type="submit">Ajouter le budget</button>
             </form>
 
@@ -86,15 +76,13 @@ function BudgetsList() {
                 {(budget) => (
                     <div>
                         <span>{budget.name}</span>
-                        <span>{budget.total_amount}</span>
-                        <span>{budget.spent_amount}</span>
-                        <span>{budget.start_date}</span>
-                        <span>{budget.end_date}</span>
+                        <span>{budget.amount}</span>
+                        <span>{budget.period}</span>
                         <button onClick={(e) => handleUpdate(e, budget.id)}>Modifier</button>
                         <button onClick={(e) => handleDelete(e, budget.id)}>Supprimer</button>
                     </div>
                 )}
-            </For>
+            </For> */}
         </>
     );
 }

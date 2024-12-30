@@ -1,0 +1,271 @@
+/*************************************************************/
+// Media Queries
+/*************************************************************/
+
+/// A mixin to generate media queries
+/// @param {String} $breakpoint - Either `tablet`, `desktop` or `large-desktop`
+@mixin respond-to($breakpoint) {
+  @if $breakpoint == tablet {
+    @media (min-width: 768px) and (max-width: 1023px) {
+      @content;
+    }
+  } @else if $breakpoint == desktop {
+    @media (min-width: 1024px) and (max-width: 1279px) {
+      @content;
+    }
+  } @else if $breakpoint == large-desktop {
+    @media (min-width: 1280px) and (max-width: 1439px) {
+      @content;
+    }
+  } @else if $breakpoint == big-desktop {
+    @media (min-width: 1440px) and (max-width: 2560px) {
+      @content;
+    }
+  }
+}
+
+/*************************************************************/
+// Font Size
+/*************************************************************/
+
+/// A mixin to generate a font-size declaration
+/// @param {Length} $size - The font size
+/// @require {function} calculateRem
+@mixin font-size($size) {
+  font-size: $size;
+  font-size: calculateRem($size);
+}
+
+// Example usage:
+//  .foo {
+//   @include font-size(16px);
+// }
+
+/*************************************************************/
+// Position
+/*************************************************************/
+
+/// Shorthand mixin for offset positioning
+/// @param {String} $position - Either `relative`, `absolute` or `fixed`
+/// @param {Length} $top [null] - Top offset
+/// @param {Length} $right [null] - Right offset
+/// @param {Length} $bottom [null] - Bottom offset
+/// @param {Length} $left [null] - Left offset
+@mixin position($position, $top: null, $right: null, $bottom: null, $left: null) {
+  position: $position;
+  top: $top;
+  right: $right;
+  bottom: $bottom;
+  left: $left;
+}
+
+/// Shorthand mixin for relative positioning
+/// Serves as an alias for `position(relative, ...)`
+/// @param {Arglist} $args - Offsets
+/// @require {mixin} position
+@mixin relative($args...) {
+  @include position(relative, $args...);
+}
+
+/// Shorthand mixin for fixed positioning
+/// Serves as an alias for `position(fixed, ...)`
+/// @param {Arglist} $args - Offsets
+/// @require {mixin} position
+@mixin fixed($args...) {
+  @include position(fixed, $args...);
+}
+
+/// Shorthand mixin for absolute positioning
+/// Serves as an alias for `position(absolute, ...)`
+/// @param {Arglist} $args - Offsets
+/// @require {mixin} position
+@mixin absolute($args...) {
+  @include position(absolute, $args...);
+}
+
+/// Shorthand mixin for sticky positioning
+/// Serves as an alias for `position(sticky, ...)`
+/// @param {Arglist} $args - Offsets
+/// @require {mixin} position
+@mixin sticky($args...) {
+  @include position(sticky, $args...);
+}
+
+// Example usage:
+// .foo {
+//   @include absolute($top: 1em, $left: 50%);
+// }
+
+/*************************************************************/
+// Flexbox
+/*************************************************************/
+
+/// A mixin to rule complex flexbox layouts
+/// @param {String} $direction - Either `row` or `column`
+/// @param {String} $justify - Either `start`, `end`, `center`, `space-around`, `space-between` or `space-evenly`
+/// @param {String} $align - Either `start`, `end`, `center`, `stretch` or `baseline`
+/// @param {String} $align-content - Either `start`, `end`, `center`, `space-around`, `space-between` or `space-evenly`
+/// @param {String} $align-items - Either `start`, `end`, `center`, `stretch` or `baseline`
+/// @param {String} $wrap - Either `nowrap`, `wrap` or `wrap-reverse`
+@mixin flex(
+  $display: flex,
+  $direction: row,
+  $placeContent: null,
+  $placeItems: null,
+  $wrap: nowrap,
+  $shrink: null,
+  $grow: null,
+  $alignContent: null,
+  $justifyContent: null,
+  $alignItems: null,
+  $justifyItems: null
+) {
+  display: $display;
+  flex-direction: $direction;
+
+  @if $placeContent == null {
+    @if $alignContent {
+      align-content: $alignContent;
+    }
+    @if $justifyContent {
+      justify-content: $justifyContent;
+    }
+  } @else {
+    place-content: $placeContent;
+  }
+
+  @if $placeItems == null {
+    @if $alignItems {
+      align-items: $alignItems;
+    }
+    @if $justifyItems {
+      justify-items: $justifyItems;
+    }
+  } @else {
+    place-items: $placeItems;
+  }
+
+  flex-wrap: $wrap;
+  flex-shrink: $shrink;
+  flex-grow: $grow;
+}
+
+// Example usage:
+// .box {
+//   @include flex($placeContent: flex-start, $placeItems: center, $direction: column,  $wrap: wrap, $grow: 1, $shrink: 1);
+//   //$placeContent: flex-start, $placeItems: center, $direction: column, $wrap: wrap, $grow: 1, $shrink: 1
+//   //You don't have to use all the parameters of the mixins, you can use the ones you want.
+// }
+
+/*************************************************************/
+// Keyframes
+/*************************************************************/
+
+// Define animation name, and properties
+/// @param {String} $animation-name - Animation name
+@mixin keyframes($animation-name) {
+  @-webkit-keyframes #{$animation-name} {
+    @content;
+  }
+  @-moz-keyframes #{$animation-name} {
+    @content;
+  }
+  @-ms-keyframes #{$animation-name} {
+    @content;
+  }
+  @-o-keyframes #{$animation-name} {
+    @content;
+  }
+  @keyframes #{$animation-name} {
+    @content;
+  }
+}
+
+// Define animation name, and properties
+// @include keyframes(fade-out) {
+//   0% { opacity: 1; }
+//   90% { opacity: 0; }
+// }
+
+/*************************************************************/
+// Animation
+/*************************************************************/
+
+// Define animation name, and properties
+/// @param {String} $str - Animation name and properties
+/// @require {mixin} keyframes
+@mixin animation($str) {
+  -webkit-animation: #{$str};
+  -moz-animation: #{$str};
+  -ms-animation: #{$str};
+  -o-animation: #{$str};
+  animation: #{$str};
+}
+
+// Add animation to element
+// .element {
+//   width: 100px;
+//   height: 100px;
+//   background: black;
+//   @include animation('fade-out 5s 3');
+// }
+
+/*************************************************************/
+// Shadow
+/*************************************************************/
+
+/// A mixin to generate a box-shadow declaration
+/// @param {Length} $x - The x offset
+/// @param {Length} $y - The y offset
+/// @param {Length} $blur - The blur radius
+/// @param {Length} $spread - The spread radius
+/// @param {Color} $color - The shadow color
+
+@mixin shadow($x, $y, $blur, $spread, $color) {
+  -webkit-box-shadow: $x $y $blur $spread $color;
+  -moz-box-shadow: $x $y $blur $spread $color;
+  box-shadow: $x $y $blur $spread $color;
+}
+
+// Example usage:
+// .foo {
+//   @include shadow(0, 0, 0, 0, $color-black);
+// }
+
+/*************************************************************/
+// Scrollbars
+/*************************************************************/
+
+/// Mixin to style scrollbars
+/// @param {String} $size - Size of the scrollbar
+/// @param {String} $foreground-color - Color of the scrollbar
+/// @param {String} $background-color - Color of the scrollbar track
+/// @require {function} mix
+/// @require {function} rgba
+
+@mixin scrollbars($size, $foreground-color, $background-color: mix($foreground-color, white, 50%)) {
+  // For Google Chrome
+  &::-webkit-scrollbar {
+    width: $size;
+    height: $size;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: $foreground-color;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: $background-color;
+  }
+
+  // For Internet Explorer
+  & {
+    scrollbar-face-color: $foreground-color;
+    scrollbar-track-color: $background-color;
+  }
+}
+
+// Example usage:
+// body {
+//   @include scrollbars(10px, pink, red);
+// }

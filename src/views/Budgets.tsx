@@ -1,6 +1,6 @@
 import { MetaProvider, Title, Link, Meta } from "@solidjs/meta";
 
-function Categories() {
+function Budgets() {
 
     return (
         <>
@@ -33,11 +33,10 @@ function Categories() {
                 <Meta property="twitter:image" content="" />
             </MetaProvider>
 
-            <h1>Categories</h1>
 
 
         </>
     )
 }
 
-export default Categories
+export default Budgets

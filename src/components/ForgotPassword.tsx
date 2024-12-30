@@ -1,5 +1,5 @@
 import { createSignal } from 'solid-js';
-import { supabase } from '../services/supabaseClient';
+import { supabase } from '../lib/supabase';
 
 const ForgotPassword = () => {
     const [email, setEmail] = createSignal("");

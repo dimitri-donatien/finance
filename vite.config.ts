@@ -12,6 +12,17 @@ export default defineConfig({
     // devtools(),
     solidPlugin(),
   ],
+  css: {
+    preprocessorOptions: {
+      scss: {
+        additionalData: `
+        @use "@/scss/base/colors.scss" as *;
+        @use "@/scss/base/typography.scss" as *;
+        @use "@/scss/utils" as *;
+      `,
+      },
+    },
+  },
   server: {
     port: 3000,
   },

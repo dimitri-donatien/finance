@@ -1,63 +1,39 @@
 import { createSignal, For, onMount } from 'solid-js';
-import { supabase } from "@/services/supabaseClient";
-import { getAllTransaction } from '@/services/transactionService';
+
+import { supabase } from "@/lib/supabase";
 
 import { user } from '@/stores/authStore';
+
+import { getAllTransaction, getTransactionById, getTransactionByCategory, createTransaction, updateTransaction, deleteTransaction, deleteAllTransaction } from '@/lib/transaction';
 
 import { TransactionType } from '@/types/Transaction';
 
 function TransactionsList() {
-
     const [amount, setAmount] = createSignal(0);
-    const [type, setType] = createSignal('expense');
-    const [note, setNote] = createSignal('');
+    const [category, setCategory] = createSignal(0);
     const [transactionDate, setTransactionDate] = createSignal('');
+    const [description, setDescription] = createSignal('');
 
     const [transactions, setTransactions] = createSignal<any[]>([]);
 
     onMount(async () => {
         const data = await getAllTransaction();
         setTransactions(data);
-    })
+    });
 
-    async function createTransaction() {
-        const { data, error } = await supabase
-            .from('transactions')
-            .insert(
-                [
-                    {
-                        amount: amount(),
-                        type: type(),
-                        note: note(),
-                        transaction_date: transactionDate(),
-                        user_id: user().id
-                    } as TransactionType
-                ]
-            );
-    }
-
-    async function updateTransaction(id: number) {
-        const { data, error } = await supabase
-            .from('transactions')
-            .update({
-                amount: amount(),
-                type: type(),
-                note: note(),
-                transaction_date: transactionDate()
-            })
-            .eq('id', id);
-    }
-
-    async function deleteTransaction(id: number) {
-        const { data, error } = await supabase
-            .from('transactions')
-            .delete()
-            .eq('id', id);
-    }
-
-    function handleUpdate(e: Event, id: number) {
+    function handleCreateTransaction(e: Event, data: TransactionType) {
         e.preventDefault();
-        updateTransaction(id);
+        createTransaction(data);
+    }
+
+    function handleGetTransactionById(e: Event, id: number) {
+        e.preventDefault();
+        getTransactionById(id);
+    }
+
+    function handleUpdate(e: Event, id: number, data: TransactionType) {
+        e.preventDefault();
+        updateTransaction(id, data);
     }
 
     function handleDelete(e: Event, id: number) {
@@ -65,14 +41,19 @@ function TransactionsList() {
         deleteTransaction(id);
     }
 
-    function handleSubmit(e: Event) {
+    function handleDeleteAll(e: Event) {
         e.preventDefault();
-        createTransaction();
+        deleteAllTransaction();
+    }
+
+    function handleGetTransactionByCategory(e: Event, category: string) {
+        e.preventDefault();
+        getTransactionByCategory(category);
     }
 
     return (
         <>
-            <form onSubmit={handleSubmit}>
+            {/* <form onSubmit={handleSubmit}>
                 <input type="number" value={amount()} onInput={(e) => setAmount(Number(e.target.value))} placeholder="Nom de la transaction" required />
                 <select value={type()} onChange={(e) => setType(e.target.value)}>
                     <option value="expense">Dépense</option>
@@ -95,7 +76,7 @@ function TransactionsList() {
                     </div>
 
                 )}
-            </For>
+            </For> */}
         </>
     );
 }

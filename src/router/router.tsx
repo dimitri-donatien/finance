@@ -3,9 +3,10 @@ import { lazy } from "solid-js";
 import AuthMiddleware from "@/components/AuthMiddleware";
 
 // General views
-const OverView = lazy(() => import("@/views/Overview"));
-const CategoriesView = lazy(() => import("@/views/Categories"));
+const DashboardView = lazy(() => import("@/views/Dashboard"));
 const TransactionsView = lazy(() => import("@/views/Transactions"));
+const BudgetsView = lazy(() => import("@/views/Budgets"));
+// const ReportsView = lazy(() => import("@/views/Reports"));
 
 // Auth views
 const LoginView = lazy(() => import("@/views/Login"));
@@ -31,15 +32,15 @@ const AppRoutes = () => {
             )} />
 
             {/* Routes nécessitant une authentification */}
-            <Route path="/overview" component={() => (
+            <Route path="/dashboard" component={() => (
                 <AuthMiddleware requiresAuth>
-                    <OverView />
+                    <DashboardView />
                 </AuthMiddleware>
             )} />
 
-            <Route path="/categories" component={() => (
+            <Route path="/budgets" component={() => (
                 <AuthMiddleware requiresAuth>
-                    <CategoriesView />
+                    <BudgetsView />
                 </AuthMiddleware>
             )} />
 
@@ -49,9 +50,11 @@ const AppRoutes = () => {
                 </AuthMiddleware>
             )} />
 
-            {/* Autres routes, accessibles sans authentification spécifique */}
-            {/* <Route path="/categories" component={CategoriesView} /> */}
-            {/* <Route path="/transactions" component={TransactionsView} /> */}
+            {/* <Route path="/reports" component={() => (
+                <AuthMiddleware requiresAuth>
+                    <ReportsView />
+                </AuthMiddleware>
+            )} /> */}
 
             {/* Page pour les erreurs (404) */}
             <Route path="*404" component={NotFoundView} />

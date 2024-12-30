@@ -1,6 +1,6 @@
 // src/stores/authStore.ts
 import { createSignal, onMount, createRoot } from "solid-js";
-import { supabase } from "@/services/supabaseClient";
+import { supabase } from "@/lib/supabase";
 
 // Use createRoot to ensure the signal is created within a reactive context
 const authStore = createRoot(() => {
