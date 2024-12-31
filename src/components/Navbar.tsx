@@ -1,19 +1,14 @@
-import { Show, For, createSignal } from "solid-js"
+import { For } from "solid-js"
 import { A } from "@solidjs/router"
-import { user } from "@/stores/authStore"
 
 import { FiHome } from 'solid-icons/fi'
 import { BiRegularWallet } from 'solid-icons/bi'
 import { CgArrowsExchange } from 'solid-icons/cg'
 import { OcReport2 } from 'solid-icons/oc'
-import { FiLogOut } from 'solid-icons/fi'
-import { FiLogIn } from 'solid-icons/fi'
 
 import "@/scss/components/navbar.scss"
 
 function Navbar() {
-
-    const [isAuth, setIsAuth] = createSignal(!!user());
 
     const items = [
         {
@@ -36,30 +31,19 @@ function Navbar() {
             url: "/reports",
             icon: <OcReport2 />
         },
-        {
-            name: "Logout",
-            url: "/",
-            icon: <FiLogOut />
-        },
-        {
-            name: "Login",
-            url: "/",
-            icon: <FiLogIn />
-        }
     ]
 
     return (
-        <nav>
-            <ul>
+        <nav class="navbar">
+            <A href="/" class="navbar-brand">Solid Money</A>
+            <ul class="navbar__list">
                 <For each={items}>
-                    {({ name, url, icon }) => (
-                        <li>
-                            <Show when={isAuth() && name !== "Login"}>
-                                <A href={url}>
-                                    {icon}
-                                    {name}
-                                </A>
-                            </Show>
+                    {(item) => (
+                        <li class="navbar__item">
+                            <A href={item.url} class="navbar__link" end>
+                                {item.icon}
+                                {item.name}
+                            </A>
                         </li>
                     )}
                 </For>

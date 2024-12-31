@@ -1,4 +1,45 @@
-a {
-  color: #fff;
+.navbar {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 1.5rem 2rem;
+  background-color: $blacklight;
+  border-radius: 1rem;
+}
+
+.navbar-brand {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: $white;
+  text-decoration: none;
+}
+
+.navbar__list {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  margin-left: auto;
+}
+
+.navbar__item {
+  list-style: none;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+
+  &:hover {
+    background-color: $graylight;
+  }
+
+  &:has(> .navbar__link.active) {
+    background-color: $graylight;
+  }
+}
+
+.navbar__link {
+  display: flex;
+  gap: 0.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  color: $white;
   text-decoration: none;
 }
