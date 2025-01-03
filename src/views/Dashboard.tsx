@@ -1,4 +1,4 @@
-import { MetaProvider, Title, Link, Meta } from "@solidjs/meta";
+import { MetaProvider, Title, Link, Meta } from "@solidjs/meta"
 
 import Card from "@/components/Card"
 
