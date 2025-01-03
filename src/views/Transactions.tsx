@@ -1,3 +1,4 @@
+import TransactionTable from "@/components/TransactionTable";
 import { MetaProvider, Title, Link, Meta } from "@solidjs/meta";
 
 function Transactions() {
@@ -33,8 +34,12 @@ function Transactions() {
                 <Meta property="twitter:image" content="" />
             </MetaProvider>
 
+            <section class="transactions">
+                <h2 class="header-title">Transactions</h2>
 
-
+                {/* Add the TransactionsList component here */}
+                <TransactionTable />
+            </section>
         </>
     )
 }
