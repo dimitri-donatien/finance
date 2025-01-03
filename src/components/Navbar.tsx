@@ -17,20 +17,20 @@ function Navbar() {
             icon: <FiHome />
         },
         {
-            name: "Budgets",
-            url: "/budgets",
-            icon: <BiRegularWallet />
-        },
-        {
             name: "Transactions",
             url: "/transactions",
             icon: <CgArrowsExchange />
         },
         {
-            name: "Reports",
-            url: "/reports",
-            icon: <OcReport2 />
+            name: "Budgets",
+            url: "/budgets",
+            icon: <BiRegularWallet />
         },
+        // {
+        //     name: "Reports",
+        //     url: "/reports",
+        //     icon: <OcReport2 />
+        // },
     ]
 
     return (
