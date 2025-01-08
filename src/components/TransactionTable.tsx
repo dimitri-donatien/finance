@@ -3,6 +3,7 @@ import { onMount } from "solid-js";
 import { Portal } from "solid-js/web";
 
 import { TransactionType } from "@/types/Transaction";
+
 import { user } from "@/stores/authStore";
 
 import { getAllTransaction, createTransaction, updateTransaction, deleteTransaction } from "@/lib/transaction";
@@ -18,7 +19,7 @@ const TransactionTable = () => {
     const [sortColumn, setSortColumn] = createSignal<keyof TransactionType>("amount");
     const [sortOrder, setSortOrder] = createSignal<"asc" | "desc">("asc");
 
-    const [isModalOpen, setIsModalOpen] = createSignal(false); // Ensure only one modal is open
+    const [isModalOpen, setIsModalOpen] = createSignal(false);
     const [modalType, setModalType] = createSignal<"transaction" | "category" | "delete" | null>(null);
 
     const [isEditMode, setIsEditMode] = createSignal(false);
@@ -119,21 +120,24 @@ const TransactionTable = () => {
     };
 
     return (
-        <div class="transaction-table">
+        <div class="transaction-contents">
             <div class="toolbar">
                 <input
                     type="text"
                     placeholder="Search transactions..."
                     value={searchTerm()}
                     onInput={(e) => setSearchTerm(e.currentTarget.value)}
+                    class="search-input"
                 />
-                <button onClick={() => openModal("category")}>Create Category</button>
-                <button onClick={() => openModal("transaction")}>Create Transaction</button>
+                <div class="cta-buttons__container">
+                    <button class="cta-categary" onClick={() => openModal("category")}>Create Category</button>
+                    <button class="cta-transaction" onClick={() => openModal("transaction")}>Create Transaction</button>
+                </div>
             </div>
 
-            <table>
-                <thead>
-                    <tr>
+            <table class="transaction-table">
+                <thead class="table-header">
+                    <tr class="table-columns">
                         <th onClick={() => toggleSortOrder("amount")}>Amount {sortColumn() === "amount" ? (sortOrder() === "asc" ? "↑" : "↓") : ""}</th>
                         <th>Category</th>
                         <th onClick={() => toggleSortOrder("transaction_date")}>Date {sortColumn() === "transaction_date" ? (sortOrder() === "asc" ? "↑" : "↓") : ""}</th>
@@ -142,10 +146,10 @@ const TransactionTable = () => {
                         <th>Actions</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="table-body">
                     <For each={filteredTransactions()}>
                         {(transaction) => (
-                            <tr>
+                            <tr class="table-row">
                                 <td>${transaction.amount.toFixed(2)}</td>
                                 <td>{getCategoryName(transaction.category_id, categories())}</td>
                                 <td>{transaction.transaction_date}</td>
@@ -166,8 +170,8 @@ const TransactionTable = () => {
                 <Portal>
                     <div class="modal" onClick={(e) => e.target === e.currentTarget && closeModal()}>
                         <div class="modal-content">
-                            <h2>{isEditMode() ? "Edit Transaction" : "Create Transaction"}</h2>
-                            <form onSubmit={handleCreateOrUpdateTransaction}>
+                            <h3 class="modal-title">{isEditMode() ? "Edit Transaction" : "Create Transaction"}</h3>
+                            <form class="modal-form" onSubmit={handleCreateOrUpdateTransaction}>
                                 <label>
                                     Amount:
                                     <input type="number" name="amount" step="0.01" value={selectedTransaction()?.amount || ""} required />
@@ -194,27 +198,31 @@ const TransactionTable = () => {
                                         <option value="expense" selected={selectedTransaction()?.type === "expense"}>Expense</option>
                                     </select>
                                 </label>
-                                <button type="submit">{isEditMode() ? "Update" : "Save"}</button>
-                                <button type="button" onClick={closeModal}>Cancel</button>
+                                <div class="modal-cta__container">
+                                    <button class="modal-cta" type="submit">{isEditMode() ? "Update" : "Save"}</button>
+                                    <button class="modal-cta" type="button" onClick={closeModal}>Cancel</button>
+                                </div>
                             </form>
                         </div>
                     </div>
-                </Portal>
-            </Show>
+                </Portal >
+            </Show >
 
             {/* Category Modal */}
             <Show when={modalType() === "category"}>
                 <Portal>
                     <div class="modal" onClick={(e) => e.target === e.currentTarget && closeModal()}>
                         <div class="modal-content">
-                            <h2>Create Category</h2>
+                            <h3 class="modal-title">Create Category</h3>
                             <form onSubmit={handleCreateCategory}>
                                 <label>
                                     Name:
                                     <input type="text" name="name" required />
                                 </label>
-                                <button type="submit">Save</button>
-                                <button type="button" onClick={closeModal}>Cancel</button>
+                                <div class="modal-cta__container">
+                                    <button class="modal-cta" type="submit">Save</button>
+                                    <button class="modal-cta" type="button" onClick={closeModal}>Cancel</button>
+                                </div>
                             </form>
                         </div>
                     </div>
@@ -226,15 +234,17 @@ const TransactionTable = () => {
                 <Portal>
                     <div class="modal" onClick={(e) => e.target === e.currentTarget && closeModal()}>
                         <div class="modal-content">
-                            <h2>Confirm Delete</h2>
-                            <p>Are you sure you want to delete this transaction?</p>
-                            <button onClick={handleDeleteTransaction}>Yes</button>
-                            <button onClick={closeModal}>No</button>
+                            <h3 class="modal-title">Confirm Delete</h3>
+                            <p class="modal-message">Are you sure you want to delete this transaction?</p>
+                            <div class="modal-cta__container">
+                                <button class="modal-cta" onClick={handleDeleteTransaction}>Yes</button>
+                                <button class="modal-cta" onClick={closeModal}>No</button>
+                            </div>
                         </div>
                     </div>
                 </Portal>
             </Show>
-        </div>
+        </div >
     );
 };
 
