@@ -10,8 +10,6 @@ import { getAllTransaction, createTransaction, updateTransaction, deleteTransact
 import { getAllCategory, createCategory } from "@/lib/category";
 import { getCategoryName } from "@/lib/utils";
 
-import "@/scss/components/transaction-table.scss";
-
 const TransactionTable = () => {
     const [transactions, setTransactions] = createSignal<any[]>([]);
     const [categories, setCategories] = createSignal<any[]>([]);

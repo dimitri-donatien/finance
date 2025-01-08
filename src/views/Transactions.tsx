@@ -2,8 +2,6 @@ import { MetaProvider, Title, Link, Meta } from "@solidjs/meta";
 
 import TransactionTable from "@/components/TransactionTable";
 
-import '@/scss/pages/transactions.scss';
-
 function Transactions() {
 
     return (

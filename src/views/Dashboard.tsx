@@ -2,8 +2,6 @@ import { MetaProvider, Title, Link, Meta } from "@solidjs/meta"
 
 import Card from "@/components/Card"
 
-import "@/scss/pages/dashboard.scss"
-
 function Dashboard() {
 
     return (
